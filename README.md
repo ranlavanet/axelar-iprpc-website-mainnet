@@ -1,6 +1,6 @@
 # Lava <> Axelar Provider Payment dapp
 
-![image](https://github.com/ranlavanet/evmos-iprpc-website/blob/main/public/website-mainpage.png)
+![image](https://github.com/ranlavanet/axelar-iprpc-website/blob/main/public/website-mainpage.png)
 
 ### 1\. Install dependencies
 
