@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Web3 from "web3"
 
 const EditableInputComponent = ({ getDefaultAsyncValue, onUpdate }) => {
   // Create state variables for the editable value and default value
@@ -38,8 +39,18 @@ const EditableInputComponent = ({ getDefaultAsyncValue, onUpdate }) => {
           onChange={handleInputChange}
         />
       </div>
+      <text>
+          Amount in Wei: {toMicroEth(editableValue)}
+        </text>
     </div>
   );
 };
+
+function toMicroEth(editableValue) {
+  if (editableValue && Number(editableValue) > 0) {
+    return Web3.utils.toWei(String(editableValue), 'ether')
+  }
+  else return "0"
+}
 
 export default EditableInputComponent;
