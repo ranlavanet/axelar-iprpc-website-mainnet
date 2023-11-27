@@ -8,7 +8,7 @@ const AxelarTestnetChainRPC = "https://endpoints.omniatech.io/v1/arbitrum/goerli
 const AxelarMainnetChainRPC = "-"
 const AxelarTestnetChainSymbol = "AGOR"
 const AxelarMainnetChainSymbol = "-"
-const AxelarTestnetChainExplorer = "https://testnet.escan.live"
+const AxelarTestnetChainExplorer = "https://goerli.arbiscan.io/"
 const AxelarMainnetChainExplorer = "-"
 
 // 
