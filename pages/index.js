@@ -6,7 +6,7 @@ const Home = () => {
   return (
     <>
       <Head>
-        <title>Lava -Evmos ipRPC dapp</title>
+        <title>Lava -Axelar ipRPC dapp</title>
         <meta
           name="description"
           content="decentralized application for reward distribution"

@@ -34,18 +34,18 @@ const Navbar = () => {
                     <span>Lava Network</span>
                   </span>
                 </Link>
-                <Link href="https://evmos.org/" target="_blank">
+                <Link href="https://axelar.network/" target="_blank">
                   <span className="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">
                     <span>
                       <Image
-                        src="/img/evmos.svg"
+                        src="/img/channels4_profile.jpg"
                         alt="N"
                         width="32"
                         height="32"
                         className="w-8"
                       />
                     </span>
-                    <span>Evmos Org</span>
+                    <span>Axelar Network</span>
                   </span>
                 </Link>
 
