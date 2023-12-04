@@ -19,9 +19,9 @@ import type {
   TypedEventLog,
   TypedListener,
   TypedContractMethod,
-} from "./common";
+} from "../common";
 
-export declare namespace LavaEvmosProviderPaymentContract {
+export declare namespace LavaAxelarIpRPCDistribution {
   export type ProviderStruct = { name: AddressLike; value: BigNumberish };
 
   export type ProviderStructOutput = [name: string, value: bigint] & {
@@ -30,15 +30,19 @@ export declare namespace LavaEvmosProviderPaymentContract {
   };
 }
 
-export interface LavaEvmosProviderPaymentContractInterface extends Interface {
+export interface LavaAxelarIpRPCDistributionInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "backupOwner"
-      | "balances"
+      | "getBackupOwner"
+      | "getOwner"
       | "owner"
       | "payProviders"
       | "setBackUpOwner"
       | "setOwner"
+      | "token"
+      | "tokenAddress"
+      | "updateTokenAddress"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -46,13 +50,14 @@ export interface LavaEvmosProviderPaymentContractInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "balances",
-    values: [AddressLike]
+    functionFragment: "getBackupOwner",
+    values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "getOwner", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "payProviders",
-    values: [LavaEvmosProviderPaymentContract.ProviderStruct[]]
+    values: [LavaAxelarIpRPCDistribution.ProviderStruct[]]
   ): string;
   encodeFunctionData(
     functionFragment: "setBackUpOwner",
@@ -62,12 +67,25 @@ export interface LavaEvmosProviderPaymentContractInterface extends Interface {
     functionFragment: "setOwner",
     values: [AddressLike]
   ): string;
+  encodeFunctionData(functionFragment: "token", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "tokenAddress",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "updateTokenAddress",
+    values: [AddressLike]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "backupOwner",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "balances", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getBackupOwner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getOwner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "payProviders",
@@ -78,13 +96,22 @@ export interface LavaEvmosProviderPaymentContractInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setOwner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "token", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "updateTokenAddress",
+    data: BytesLike
+  ): Result;
 }
 
-export interface LavaEvmosProviderPaymentContract extends BaseContract {
-  connect(runner?: ContractRunner | null): LavaEvmosProviderPaymentContract;
+export interface LavaAxelarIpRPCDistribution extends BaseContract {
+  connect(runner?: ContractRunner | null): LavaAxelarIpRPCDistribution;
   waitForDeployment(): Promise<this>;
 
-  interface: LavaEvmosProviderPaymentContractInterface;
+  interface: LavaAxelarIpRPCDistributionInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -125,12 +152,14 @@ export interface LavaEvmosProviderPaymentContract extends BaseContract {
 
   backupOwner: TypedContractMethod<[], [string], "view">;
 
-  balances: TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+  getBackupOwner: TypedContractMethod<[], [string], "view">;
+
+  getOwner: TypedContractMethod<[], [string], "view">;
 
   owner: TypedContractMethod<[], [string], "view">;
 
   payProviders: TypedContractMethod<
-    [providers: LavaEvmosProviderPaymentContract.ProviderStruct[]],
+    [providers: LavaAxelarIpRPCDistribution.ProviderStruct[]],
     [void],
     "nonpayable"
   >;
@@ -143,6 +172,16 @@ export interface LavaEvmosProviderPaymentContract extends BaseContract {
 
   setOwner: TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
 
+  token: TypedContractMethod<[], [string], "view">;
+
+  tokenAddress: TypedContractMethod<[], [string], "view">;
+
+  updateTokenAddress: TypedContractMethod<
+    [_newTokenAddress: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
@@ -151,15 +190,18 @@ export interface LavaEvmosProviderPaymentContract extends BaseContract {
     nameOrSignature: "backupOwner"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "balances"
-  ): TypedContractMethod<[arg0: AddressLike], [bigint], "view">;
+    nameOrSignature: "getBackupOwner"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "getOwner"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "payProviders"
   ): TypedContractMethod<
-    [providers: LavaEvmosProviderPaymentContract.ProviderStruct[]],
+    [providers: LavaAxelarIpRPCDistribution.ProviderStruct[]],
     [void],
     "nonpayable"
   >;
@@ -169,6 +211,15 @@ export interface LavaEvmosProviderPaymentContract extends BaseContract {
   getFunction(
     nameOrSignature: "setOwner"
   ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "token"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "tokenAddress"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "updateTokenAddress"
+  ): TypedContractMethod<[_newTokenAddress: AddressLike], [void], "nonpayable">;
 
   filters: {};
 }

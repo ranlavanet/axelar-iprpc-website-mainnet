@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Web3 from 'web3';
+import { ERC20TokenAddress, getBalance, convertERCBalanceToDecimal, minABI } from "./utils";
 
 const AccountInfo = () => {
   const [connectedAccount, setConnectedAccount] = useState('');
@@ -14,16 +15,15 @@ const AccountInfo = () => {
 
         if (connectedAccount) {
           setConnectedAccount(connectedAccount);
-
-          const balanceWei = await web3.eth.getBalance(connectedAccount);
-          const balanceEther = web3.utils.fromWei(balanceWei, 'ether');
-          setBalance(balanceEther);
+          let contract = new web3.eth.Contract(minABI, ERC20TokenAddress);
+          let balanceAx = await getBalance(contract, connectedAccount);
+          const balanceERC = convertERCBalanceToDecimal(web3, balanceAx)
+          setBalance(balanceERC);
         }
       } else {
         alert("metamask is not installed. please install metamask extension")
       }
     }
-
     fetchAccountInfo();
   }, []);
 

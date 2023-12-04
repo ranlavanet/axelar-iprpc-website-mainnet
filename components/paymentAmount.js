@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from "web3"
+import {convertERCBalanceToDecimal} from "./utils"
 
 const EditableInputComponent = ({ getDefaultAsyncValue, onUpdate }) => {
   // Create state variables for the editable value and default value
   const [editableValue, setEditableValue] = useState('trying to fetch contract balance');
-
+  const web3 = new Web3(window.ethereum)
   // Use useEffect to update the editable value when the defaultValue prop changes
   useEffect(() => {
     async function fetchDefaultValue() {
@@ -40,17 +41,17 @@ const EditableInputComponent = ({ getDefaultAsyncValue, onUpdate }) => {
         />
       </div>
       <text>
-          Amount in Wei: {toMicroEth(editableValue)}
+          Amount (decimals): {(parseEditableValue(web3,editableValue))}
         </text>
     </div>
   );
 };
 
-function toMicroEth(editableValue) {
-  if (editableValue && Number(editableValue) > 0) {
-    return Web3.utils.toWei(String(editableValue), 'ether')
-  }
-  else return "0"
+function parseEditableValue(web3, input) {
+  if (input == 0) {
+    return 0;
+  } 
+  return convertERCBalanceToDecimal(web3,input);
 }
 
 export default EditableInputComponent;

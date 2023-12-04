@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import ParsedDataComponent from "./parsedJsonData"
 import PaymentJsonShowBox from "./paymentJsonAmount"
 import Web3 from "web3"
-import { LavaEvmosProviderPaymentContract__factory } from "../contract/typechain-types"
+import { LavaAxelarIpRPCDistribution__factory } from "../contract/typechain-types/factories/contracts/LavaAxelarIpRPCDistribution__factory.ts"
 import { ContractAddress } from "./utils"
 import FileInputComponent from "./fileInput";
 import EditableInputComponent from "./paymentAmount"
 import { ethers } from "ethers";
+import { ERC20TokenAddress, minABI, getBalance, convertERCBalanceToDecimal} from "./utils";
 
 const PayProvidersComponent = () => {
     const [uploadedData, setUploadedData] = useState(null);
@@ -122,8 +123,9 @@ function parseCsvFields(uploadedData, amountToPay) {
  
     //
     // Calc payment per provider
-    let totalPayWei = BigInt(Web3.utils.toWei(String(amountToPay), 'ether'))
+    let totalPayWei = BigInt(String(amountToPay))
     let totalCoinsSending = 0n
+    const web3 = new Web3(window.ethereum)
     for (let i of gatherInfo) {
         const value = (totalPayWei * 10000n) / BigInt(Math.round((totalCu / i.totalCUs) * 10000));
         if (value == 0) {
@@ -154,15 +156,13 @@ function parseCsvFields(uploadedData, amountToPay) {
 
 async function getCurrentContractFunds() {
     try {
-        const requestParams = {
-            method: 'eth_getBalance',
-            params: [ContractAddress, 'latest'], // 'latest' means to get the latest block
-        };
-        const balance = await window.ethereum.request(requestParams);
-        // The balance is returned in Wei. 
-        const balanceInEther = Web3.utils.fromWei(balance, 'ether');
-        console.log(`Balance of the contract at address ${ContractAddress}: ${balanceInEther} ETH, ${balance} Wei}`);
-        return balanceInEther;
+        const web3 = new Web3(window.ethereum);
+        const accounts = await web3.eth.getAccounts();
+        const connectedAccount = accounts[0];
+        console.log("@@@@@@@@@@@@@@@@", connectedAccount);
+        let contract = new web3.eth.Contract(minABI, ERC20TokenAddress);
+        let balanceAx = await getBalance(contract, connectedAccount);
+        return balanceAx;
     } catch (error) {
         console.error('Error getting contract balance:', error);
         return "failed fetching balance";
@@ -172,7 +172,7 @@ async function payProviders(uploadedData, amountToPay) {
     if (window.ethereum) {
         if (window.ethereum.isConnected()) {
             const wallet = new Web3(window.ethereum);
-            const myContract = new wallet.eth.Contract(LavaEvmosProviderPaymentContract__factory.abi, ContractAddress);
+            const myContract = new wallet.eth.Contract(LavaAxelarIpRPCDistribution__factory.abi, ContractAddress);
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
             const fromAccount = accounts[0];
 

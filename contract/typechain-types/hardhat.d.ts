@@ -14,26 +14,116 @@ import * as Contracts from ".";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
-      name: "LavaEvmosProviderPaymentContract",
+      name: "IERC20Permit",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.LavaEvmosProviderPaymentContract__factory>;
+    ): Promise<Contracts.IERC20Permit__factory>;
+    getContractFactory(
+      name: "IERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20__factory>;
+    getContractFactory(
+      name: "SafeERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.SafeERC20__factory>;
+    getContractFactory(
+      name: "Address",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.Address__factory>;
+    getContractFactory(
+      name: "LavaAxelarIpRPCDistribution",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.LavaAxelarIpRPCDistribution__factory>;
+    getContractFactory(
+      name: "LavaEvmosIpRPCDistribution",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.LavaEvmosIpRPCDistribution__factory>;
 
     getContractAt(
-      name: "LavaEvmosProviderPaymentContract",
+      name: "IERC20Permit",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
-    ): Promise<Contracts.LavaEvmosProviderPaymentContract>;
+    ): Promise<Contracts.IERC20Permit>;
+    getContractAt(
+      name: "IERC20",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20>;
+    getContractAt(
+      name: "SafeERC20",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.SafeERC20>;
+    getContractAt(
+      name: "Address",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.Address>;
+    getContractAt(
+      name: "LavaAxelarIpRPCDistribution",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.LavaAxelarIpRPCDistribution>;
+    getContractAt(
+      name: "LavaEvmosIpRPCDistribution",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.LavaEvmosIpRPCDistribution>;
 
     deployContract(
-      name: "LavaEvmosProviderPaymentContract",
+      name: "IERC20Permit",
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.LavaEvmosProviderPaymentContract>;
+    ): Promise<Contracts.IERC20Permit>;
+    deployContract(
+      name: "IERC20",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC20>;
+    deployContract(
+      name: "SafeERC20",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SafeERC20>;
+    deployContract(
+      name: "Address",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Address>;
+    deployContract(
+      name: "LavaAxelarIpRPCDistribution",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LavaAxelarIpRPCDistribution>;
+    deployContract(
+      name: "LavaEvmosIpRPCDistribution",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LavaEvmosIpRPCDistribution>;
 
     deployContract(
-      name: "LavaEvmosProviderPaymentContract",
+      name: "IERC20Permit",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.LavaEvmosProviderPaymentContract>;
+    ): Promise<Contracts.IERC20Permit>;
+    deployContract(
+      name: "IERC20",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC20>;
+    deployContract(
+      name: "SafeERC20",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.SafeERC20>;
+    deployContract(
+      name: "Address",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.Address>;
+    deployContract(
+      name: "LavaAxelarIpRPCDistribution",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LavaAxelarIpRPCDistribution>;
+    deployContract(
+      name: "LavaEvmosIpRPCDistribution",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.LavaEvmosIpRPCDistribution>;
 
     // default types
     getContractFactory(
