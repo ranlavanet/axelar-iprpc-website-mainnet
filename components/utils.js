@@ -1,25 +1,25 @@
 const AxelarTestnetContract = "0x2b102B5FCdADDB4B9F4bf86e29E42F2D46624c10"
-const AxelarMainnetContract = "-"
-const AxelarTestnetChainID = 421613
-const AxelarMainnetChainID = 0
+const AxelarMainnetContract = "0xAe20abC7229bCc6f6da3e6aeEb0FF378DC534183"
+const AxelarTestnetChainID = 0
+const AxelarMainnetChainID = 42161
 const AxelarTestnetChainName = "Arbitrum Goerli"
 const AxelarMainnetChainName = "Arbitrum One"
 const AxelarTestnetChainRPC = "https://endpoints.omniatech.io/v1/arbitrum/goerli/public"
-const AxelarMainnetChainRPC = "-"
+const AxelarMainnetChainRPC = "https://g.w.lavanet.xyz:443/gateway/arb1/rpc-http/9dbe4f2c6a0baba4cd27acb8ef3d7499"
 const AxelarTestnetChainSymbol = "AXL"
-const AxelarMainnetChainSymbol = "-"
+const AxelarMainnetChainSymbol = "AXL"
 const AxelarTestnetChainExplorer = "https://goerli.arbiscan.io/"
-const AxelarMainnetChainExplorer = "-"
+const AxelarMainnetChainExplorer = "https://arbiscan.io/"
 const AxelarTokenAddress = "0x23ee2343B892b1BB63503a4FAbc840E0e2C6810f";
 const TokenDecimal = 6;
 // 
 // Replace with mainnet/testnet
-export const ContractAddress = AxelarTestnetContract;
-export const ChainId = AxelarTestnetChainID;
-export const ChainName = AxelarTestnetChainName;
-export const ChainRPC = AxelarTestnetChainRPC;
-export const ChainSymbol = AxelarTestnetChainSymbol;
-export const ChainExplorer = AxelarTestnetChainExplorer;
+export const ContractAddress = AxelarMainnetContract;
+export const ChainId = AxelarMainnetChainID;
+export const ChainName = AxelarMainnetChainName;
+export const ChainRPC = AxelarMainnetChainRPC;
+export const ChainSymbol = AxelarMainnetChainSymbol;
+export const ChainExplorer = AxelarMainnetChainExplorer;
 export const ERC20TokenAddress = AxelarTokenAddress;
 export const ERC20TokenDecimal = TokenDecimal;
 
