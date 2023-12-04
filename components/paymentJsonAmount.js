@@ -26,19 +26,22 @@ const PaymentJsonShowBox = ({ data }) => {
     <div className="border border-gray-300 rounded-md" style={{ width: containerWidth, padding: containerPadding }}>
       <h2>Reward Distribution:</h2>
       {isValidJSON(editableData) ? (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {JSON.parse(editableData).map((item, index) => (
-            <li key={index} style={{ marginBottom: '10px' }}>
-              <strong>Wallet:</strong> {item.name} <br />
-              <strong>Value:</strong> {item.value}
-            </li>
-          ))}
-        </ul>
+        rewardDistribution(editableData)
       ) : <h2>Failed to Parse</h2>}
     </div>
   );
 };
 
+function rewardDistribution(editableData) {
+  return (<ul style={{ listStyle: 'none', padding: 0 }}>
+  {JSON.parse(editableData).map((item, index) => (
+    <li key={index} style={{ marginBottom: '10px' }}>
+      <strong>Wallet:</strong> {item.name} <br />
+      <strong>Value:</strong> {item.value}
+    </li>
+  ))}
+</ul>)
+}
 
 function isValidJSON(jsonString) {
   try {

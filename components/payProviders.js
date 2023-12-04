@@ -92,6 +92,7 @@ const PayProvidersComponent = () => {
 export default PayProvidersComponent;
 
 function parseCsvFields(uploadedData, amountToPay) {
+    console.log("parsing csv")
     const paymentListOfProviders = [];
     const gatherInfo = [];
 
@@ -120,14 +121,17 @@ function parseCsvFields(uploadedData, amountToPay) {
         gatherInfo.push({ address: address, totalCUs: totalCUs })
     }
     totalCu = totalCu.toFixed(2)
- 
     //
     // Calc payment per provider
-    let totalPayWei = BigInt(String(amountToPay))
+    let totalPayWei = 0n
+    try {
+        // totalPayWei = BigInt(Web3.utils.toWei(String(amountToPay), 'mwei'))// BigInt(String(amountToPay))
+        totalPayWei = BigInt(String(amountToPay))
+    } catch(e) {}
     let totalCoinsSending = 0n
-    const web3 = new Web3(window.ethereum)
     for (let i of gatherInfo) {
         const value = (totalPayWei * 10000n) / BigInt(Math.round((totalCu / i.totalCUs) * 10000));
+        console.log(value)
         if (value == 0) {
             continue
         }
@@ -180,26 +184,42 @@ async function payProviders(uploadedData, amountToPay) {
             if (paymentListOfProviders == null) {
                 return
             }
-
-            const functionCallData = myContract.methods.payProviders(paymentListOfProviders).encodeABI();
-            await window.ethereum.request({
-                method: "eth_sendTransaction",
-                params: [{
-                    from: fromAccount,
-                    to: ContractAddress,
-                    data: functionCallData,
-                }],
-            }).then((result) => {
-                alert("tx sent Hash: " + String(result));
-                console.log(result);
-            })
-                .catch((error) => {
-                    console.error('MetaMask account access denied:', error);
-                });
+            const tokenContract = new wallet.eth.Contract(minABI, ERC20TokenAddress);
+            const spender = ContractAddress; // The address that will spend the tokens
+            const options = { from: fromAccount };
+            // Approve ContractAddress to spend amountToPay tokens on behalf of the user
+            const allowance = await tokenContract.methods.allowance(fromAccount,spender).call();
+            console.log("@@@@@@@@ ",allowance, amountToPay)
+            if (BigInt(allowance) < BigInt(amountToPay)) {
+                console.log("allowance is smaller than amount to pay need to charge funds")
+                await tokenContract.methods.approve(spender, String(amountToPay)).send(options)
+                    .then(async (receipt) => {
+                        // After approval, proceed to call the payProviders method
+                        const allowance = await tokenContract.methods.allowance(fromAccount,spender).call();
+                        await runPayProviders(myContract, paymentListOfProviders, options);
+                    })
+                    .catch((error) => {
+                        console.error('Error approving spender:', error);
+                    });
+            } else {
+                // we have enough funds to spend tokens.
+                await runPayProviders(myContract, paymentListOfProviders, options)
+            }
         } else {
             alert("Metamask is not connected. Please connect and try again")
         }
     } else {
         alert("metamask is not installed. please install metamask extension")
     }
+}
+
+async function runPayProviders(myContract, paymentListOfProviders, options) {
+    return myContract.methods.payProviders(paymentListOfProviders).send(options)
+    .then((receipt) => {
+        alert("Transaction sent. Transaction hash: " + receipt.transactionHash);
+        console.log(receipt);
+    })
+    .catch((error) => {
+        console.error('Error executing payProviders:', error);
+    });
 }

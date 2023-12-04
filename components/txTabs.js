@@ -3,7 +3,7 @@ import 'react-tabs/style/react-tabs.css'; // Import the default CSS styles for t
 import React from 'react';
 import InputChecker from "./fundInputChecker"
 import Web3 from "web3"
-import { LavaEvmosProviderPaymentContract__factory } from "../contract/typechain-types"
+import { LavaAxelarIpRPCDistribution__factory } from "../contract/typechain-types"
 import { ContractAddress } from "./utils"
 import PayProvidersComponent from "./payProviders"
 
@@ -39,7 +39,7 @@ async function sendSetBackupOwnerTx(inputValue) {
     if (window.ethereum) {
         if (window.ethereum.isConnected()) {
             const wallet = new Web3(window.ethereum);
-            const myContract = new wallet.eth.Contract(LavaEvmosProviderPaymentContract__factory.abi, ContractAddress);
+            const myContract = new wallet.eth.Contract(LavaAxelarIpRPCDistribution__factory.abi, ContractAddress);
             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
             const fromAccount = accounts[0];
             const functionCallData = myContract.methods.setBackUpOwner(inputValue).encodeABI();
