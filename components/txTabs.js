@@ -149,41 +149,4 @@ async function sendSetOwnerTx(inputValue) {
     }
 }
 
-// async function payProviders(uploadedData) {
-//     if (window.ethereum) {
-//         if (window.ethereum.isConnected()) {
-//             const wallet = new Web3(window.ethereum);
-//             const myContract = new wallet.eth.Contract(LavaEvmosProviderPaymentContract__factory.abi, ContractAddress);
-//             const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
-//             const fromAccount = accounts[0];
-//             const paymentListOfProviders = [];
-//             console.log(uploadedData)
-            
-//             for (let item of  Object.getOwnPropertyNames(uploadedData)) {
-//                 const evmosAmount = Web3.utils.toWei(uploadedData[item], 'ether');
-//                 console.log("adding payee element", item, uploadedData[item], "eth amount", evmosAmount)
-//                 paymentListOfProviders.push({name: item, value: evmosAmount})
-//             }
-//             const functionCallData = myContract.methods.payProviders(paymentListOfProviders).encodeABI();
-//             await window.ethereum.request({ 
-//                 method: "eth_sendTransaction",
-//                 params: [{
-//                     from: fromAccount,
-//                     to: ContractAddress,
-//                     data: functionCallData,
-//                 }],}).then((result) => {
-//                     alert("tx sent Hash: " + String(result));
-//                     console.log(result);
-//             })
-//             .catch((error) => {
-//             console.error('MetaMask account access denied:', error);
-//             });
-//         } else {
-//         alert("Metamask is not connected. Please connect and try again")
-//         }
-//     } else {
-//         alert("metamask is not installed. please install metamask extension")
-//     }
-// }
-
 export default TxTabs;
