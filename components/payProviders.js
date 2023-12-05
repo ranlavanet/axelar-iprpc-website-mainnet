@@ -132,7 +132,7 @@ function parseCsvFields(uploadedData, amountToPay) {
     } catch(e) {}
     let totalCoinsSending = 0n
     for (let i of gatherInfo) {
-        const value = Math.floor((totalPay * 100000n) / BigInt(Math.floor((totalPercentage / i.percentage) * 100000)));
+        const value = (totalPay * 100000n) / BigInt(Math.floor((totalPercentage / i.percentage) * 100000));
         console.log(value)
         if (value == 0) {
             continue
