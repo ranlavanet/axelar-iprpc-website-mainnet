@@ -6,6 +6,7 @@ import Web3 from "web3"
 import { LavaAxelarIpRPCDistribution__factory } from "../contract/typechain-types"
 import { ContractAddress } from "./utils"
 import PayProvidersComponent from "./payProviders"
+import { ERC20TokenAddress, minABI} from "./utils";
 
 const tabStyle = { minHeight: '650px', minWidth: '500px'}
 
@@ -14,9 +15,16 @@ const TxTabs = () => {
     <div className="max-w-2xl mb-8">
         <Tabs>
         <TabList>
+            <Tab>Fund Account</Tab>
             <Tab>Pay Providers</Tab>
             <Tab>Change Backup Owner</Tab>
         </TabList>
+        {/* Content for Tab 1 */}
+        <TabPanel style={tabStyle}>
+        <div>
+            <InputChecker buttonText={"Launch Transaction"} label1={" Enter Amount"} text1={"Amount:"} onButtonPress={fundSmartContract}></InputChecker>
+        </div>
+        </TabPanel>
         {/* Content for Tab 2 (leave it empty) */}
         <TabPanel style={tabStyle}>
             <PayProvidersComponent/> {/* Pass the uploaded data as a prop */}
@@ -34,6 +42,54 @@ const TxTabs = () => {
     </div>
     );
 };
+
+async function runFundAccount(myContract, amount, options) {
+    return myContract.methods.deposit(amount).send(options)
+    .then((receipt) => {
+        alert("Transaction sent. Transaction hash: " + receipt.transactionHash);
+        console.log(receipt);
+    })
+    .catch((error) => {
+        console.error('Error executing payProviders:', error);
+    });
+}
+
+async function fundSmartContract(inputValue) {
+    if (window.ethereum) {
+        if (window.ethereum.isConnected()) {
+            const wallet = new Web3(window.ethereum);
+            inputValue = wallet.utils.toWei(inputValue, "mwei")
+            const myContract = new wallet.eth.Contract(LavaAxelarIpRPCDistribution__factory.abi, ContractAddress);
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
+            const fromAccount = accounts[0];
+
+            const tokenContract = new wallet.eth.Contract(minABI, ERC20TokenAddress);
+            const spender = ContractAddress; // The address that will spend the tokens
+            const options = { from: fromAccount };
+            // Approve ContractAddress to spend amountToPay tokens on behalf of the user
+            const allowance = await tokenContract.methods.allowance(fromAccount,spender).call();
+            console.log("@@@@@@@@ ",allowance, inputValue)
+            if (BigInt(allowance) < BigInt(inputValue)) {
+                console.log("allowance is smaller than amount to pay need to charge funds")
+                await tokenContract.methods.approve(spender, String(inputValue)).send(options)
+                    .then(async (receipt) => {
+                        await runFundAccount(myContract, inputValue, options);
+                    })
+                    .catch((error) => {
+                        console.error('Error approving spender:', error);
+                    });
+            } else {
+                // we have enough funds to spend tokens.
+                await runFundAccount(myContract, inputValue, options)
+            }
+        } else {
+            alert("Metamask is not connected. Please connect and try again")
+        }
+    } else {
+        alert("metamask is not installed. please install metamask extension")
+    }
+}
+
 
 async function sendSetBackupOwnerTx(inputValue) {
     if (window.ethereum) {

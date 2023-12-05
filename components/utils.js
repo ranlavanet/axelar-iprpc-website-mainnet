@@ -1,5 +1,5 @@
-const AxelarTestnetContract = "0x2b102B5FCdADDB4B9F4bf86e29E42F2D46624c10"
-const AxelarMainnetContract = "0xAe20abC7229bCc6f6da3e6aeEb0FF378DC534183"
+const AxelarTestnetContract = ""
+const AxelarMainnetContract = "0xF754B8fa3ecd46757BC9962DcDCEd24C4008e68d"
 const AxelarTestnetChainID = 0
 const AxelarMainnetChainID = 42161
 const AxelarTestnetChainName = "Arbitrum Goerli"
@@ -26,7 +26,7 @@ export const ERC20TokenDecimal = TokenDecimal;
 export async function getBalance(contract, walletAddress) {
     let balance = await contract.methods.balanceOf(walletAddress).call();
     return balance;
-  }
+}
   
 export function convertERCBalanceToDecimal(web3, balanceIn) {
     if (balanceIn == "trying to fetch contract balance") { 

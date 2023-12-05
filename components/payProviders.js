@@ -3,11 +3,10 @@ import ParsedDataComponent from "./parsedJsonData"
 import PaymentJsonShowBox from "./paymentJsonAmount"
 import Web3 from "web3"
 import { LavaAxelarIpRPCDistribution__factory } from "../contract/typechain-types/factories/contracts/LavaAxelarIpRPCDistribution__factory.ts"
-import { ContractAddress } from "./utils"
 import FileInputComponent from "./fileInput";
 import EditableInputComponent from "./paymentAmount"
 import { ethers } from "ethers";
-import { ERC20TokenAddress, minABI, getBalance, convertERCBalanceToDecimal} from "./utils";
+import { ERC20TokenAddress, minABI, getBalance, convertERCBalanceToDecimal, ContractAddress} from "./utils";
 
 const PayProvidersComponent = () => {
     const [uploadedData, setUploadedData] = useState(null);
@@ -165,7 +164,7 @@ async function getCurrentContractFunds() {
         const connectedAccount = accounts[0];
         console.log("@@@@@@@@@@@@@@@@", connectedAccount);
         let contract = new web3.eth.Contract(minABI, ERC20TokenAddress);
-        let balanceAx = await getBalance(contract, connectedAccount);
+        let balanceAx = await getBalance(contract, ContractAddress);
         return balanceAx;
     } catch (error) {
         console.error('Error getting contract balance:', error);
@@ -184,27 +183,9 @@ async function payProviders(uploadedData, amountToPay) {
             if (paymentListOfProviders == null) {
                 return
             }
-            const tokenContract = new wallet.eth.Contract(minABI, ERC20TokenAddress);
-            const spender = ContractAddress; // The address that will spend the tokens
             const options = { from: fromAccount };
             // Approve ContractAddress to spend amountToPay tokens on behalf of the user
-            const allowance = await tokenContract.methods.allowance(fromAccount,spender).call();
-            console.log("@@@@@@@@ ",allowance, amountToPay)
-            if (BigInt(allowance) < BigInt(amountToPay)) {
-                console.log("allowance is smaller than amount to pay need to charge funds")
-                await tokenContract.methods.approve(spender, String(amountToPay)).send(options)
-                    .then(async (receipt) => {
-                        // After approval, proceed to call the payProviders method
-                        const allowance = await tokenContract.methods.allowance(fromAccount,spender).call();
-                        await runPayProviders(myContract, paymentListOfProviders, options);
-                    })
-                    .catch((error) => {
-                        console.error('Error approving spender:', error);
-                    });
-            } else {
-                // we have enough funds to spend tokens.
-                await runPayProviders(myContract, paymentListOfProviders, options)
-            }
+            await runPayProviders(myContract, paymentListOfProviders, options)
         } else {
             alert("Metamask is not connected. Please connect and try again")
         }

@@ -34,7 +34,9 @@ export interface LavaAxelarIpRPCDistributionInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "backupOwner"
+      | "deposit"
       | "getBackupOwner"
+      | "getContractBalance"
       | "getOwner"
       | "owner"
       | "payProviders"
@@ -50,7 +52,15 @@ export interface LavaAxelarIpRPCDistributionInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "deposit",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getBackupOwner",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getContractBalance",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getOwner", values?: undefined): string;
@@ -81,8 +91,13 @@ export interface LavaAxelarIpRPCDistributionInterface extends Interface {
     functionFragment: "backupOwner",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getBackupOwner",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getContractBalance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getOwner", data: BytesLike): Result;
@@ -152,7 +167,11 @@ export interface LavaAxelarIpRPCDistribution extends BaseContract {
 
   backupOwner: TypedContractMethod<[], [string], "view">;
 
+  deposit: TypedContractMethod<[_amount: BigNumberish], [void], "payable">;
+
   getBackupOwner: TypedContractMethod<[], [string], "view">;
+
+  getContractBalance: TypedContractMethod<[], [bigint], "view">;
 
   getOwner: TypedContractMethod<[], [string], "view">;
 
@@ -190,8 +209,14 @@ export interface LavaAxelarIpRPCDistribution extends BaseContract {
     nameOrSignature: "backupOwner"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
+    nameOrSignature: "deposit"
+  ): TypedContractMethod<[_amount: BigNumberish], [void], "payable">;
+  getFunction(
     nameOrSignature: "getBackupOwner"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "getContractBalance"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "getOwner"
   ): TypedContractMethod<[], [string], "view">;
