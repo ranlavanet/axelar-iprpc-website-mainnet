@@ -97,10 +97,20 @@ function parseCsvFields(uploadedData, amountToPay) {
 
     // Extract data from csv
     let totalPercentage = 0;
+    let alertOnce = false;
     for (let i of uploadedData) {
         let address = i['Wallet Address']
         let percentage = i['Percentage']
+        if (address == "" || percentage == "") {
+            if (!alertOnce) {
+                alertOnce = true;
+                alert("some fields are empty, skipping");
+            }
+            continue;
+        }
         if (!address || !percentage) {
+            console.log(i)
+            console.log(address, percentage)
             alert("couldn't find one of the fields 'Wallet Address' and 'Percentage'");
             return
         }
