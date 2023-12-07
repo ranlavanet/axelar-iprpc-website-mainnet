@@ -132,6 +132,9 @@ function parseCsvFields(uploadedData, amountToPay) {
         gatherInfo.push({ address: address, percentage: percentage })
     }
     totalPercentage = totalPercentage.toFixed(2)
+    if (totalPercentage == NaN) {
+        return paymentListOfProviders;
+    }
     console.log("totalPercentage", totalPercentage)
     if (Math.round(totalPercentage) != 100) {
         alert("totalPercentage != 100%, " + String(totalPercentage))
@@ -144,9 +147,7 @@ function parseCsvFields(uploadedData, amountToPay) {
         totalPay = BigInt(String(amountToPay))
     } catch(e) {}
     let totalCoinsSending = 0n
-    if (totalPercentage == NaN) {
-        return paymentListOfProviders;
-    }
+    
     for (let i of gatherInfo) {
         let value = (totalPay * 100000n) / BigInt(Math.floor((totalPercentage / i.percentage) * 100000));
         const reduction = (value * BigInt(1)) / BigInt(10000); // 1/10000 represents 0.01%
