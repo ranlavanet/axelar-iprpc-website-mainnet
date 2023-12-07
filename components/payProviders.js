@@ -99,6 +99,9 @@ function parseCsvFields(uploadedData, amountToPay) {
     let totalPercentage = 0;
     let alertOnce = false;
     for (let i of uploadedData) {
+        if (i == "") {
+            continue;
+        }
         let address = i['Wallet Address']
         let percentage = i['Percentage']
         if (address == "" || percentage == "") {
