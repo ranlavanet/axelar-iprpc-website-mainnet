@@ -124,6 +124,11 @@ function parseCsvFields(uploadedData, amountToPay) {
             continue;
         }
         try {
+            let p = Number(percentage)
+            console.log("adding percentage", p)
+            if (p == NaN || p <= 0) {
+                continue;
+            }
             totalPercentage += Number(percentage)
         } catch (e) {
             console.log("failed converting one of the elements", e)
