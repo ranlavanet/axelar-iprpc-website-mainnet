@@ -112,7 +112,7 @@ function parseCsvFields(uploadedData, amountToPay) {
             console.log(i)
             console.log(address, percentage)
             alert("couldn't find one of the fields 'Wallet Address' and 'Percentage'");
-            return
+            continue;
         }
         if (percentage == "") {
             continue;
