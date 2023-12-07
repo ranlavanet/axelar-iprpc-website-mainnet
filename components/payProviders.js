@@ -131,6 +131,7 @@ function parseCsvFields(uploadedData, amountToPay) {
         }
         gatherInfo.push({ address: address, percentage: percentage })
     }
+    console.log("totalPercentage before fixed", totalPercentage)
     totalPercentage = totalPercentage.toFixed(2)
     if (totalPercentage == NaN) {
         return paymentListOfProviders;
