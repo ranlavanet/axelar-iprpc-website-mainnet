@@ -120,6 +120,9 @@ function parseCsvFields(uploadedData, amountToPay) {
         if (percentage == "") {
             continue;
         }
+        if (percentage.includes("%")) {
+            percentage = percentage.replace("%", "")
+        }
         if (Number(percentage) == 0) {
             continue;
         }
